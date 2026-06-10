@@ -1,0 +1,129 @@
+/* Capa A — Sistema visual de la interfaz Gamonal.
+   Paleta fija, Roboto ≤600, aire visual, esquinas modernas, sombras suaves, hover 300ms.
+   Esta hoja NO se exporta a las piezas (Capa B). */
+
+:root {
+  --g-azul: #040764;
+  --g-azul2: #1C73CB;
+  --g-turquesa: #20B6B6;
+  --g-amarillo: #FCE865;
+  --g-magenta: #B318A3;
+  --g-gris-osc: #3B3B3B;
+  --g-gris-clr: #F5F5F5;
+  --g-blanco: #FFFFFF;
+  --g-borde: #E6E8EF;
+  --g-sombra-soft: 0 1px 3px rgba(4, 7, 100, .08);
+  --g-sombra-med: 0 4px 12px rgba(4, 7, 100, .10);
+  --g-r-sm: 6px;
+  --g-r-md: 10px;
+  --g-r-lg: 14px;
+  --g-t: all .3s ease;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  font-family: Roboto, system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-weight: 400;
+  color: var(--g-gris-osc);
+  background: var(--g-gris-clr);
+  -webkit-font-smoothing: antialiased;
+}
+
+#app { display: flex; flex-direction: column; height: 100vh; }
+
+/* ── Barra superior ── */
+.sbb-top {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 56px; padding: 0 20px;
+  background: var(--g-blanco);
+  border-bottom: 1px solid var(--g-borde);
+}
+.sbb-marca { display: flex; align-items: center; gap: 12px; }
+.sbb-logo {
+  display: grid; place-items: center;
+  width: 34px; height: 34px; border-radius: var(--g-r-sm);
+  background: var(--g-azul); color: var(--g-blanco);
+  font-weight: 600; font-size: 13px; letter-spacing: .5px;
+}
+.sbb-marca-txt { font-weight: 500; font-size: 15px; color: var(--g-azul); }
+.sbb-top-acc { display: flex; align-items: center; gap: 8px; }
+.sbb-top-acc button {
+  display: inline-flex; align-items: center; gap: 6px;
+  height: 36px; padding: 0 12px;
+  border: 1px solid var(--g-borde); border-radius: var(--g-r-sm);
+  background: var(--g-blanco); color: var(--g-gris-osc);
+  font: inherit; font-size: 14px; cursor: pointer; transition: var(--g-t);
+}
+.sbb-top-acc button:hover { box-shadow: var(--g-sombra-soft); transform: translateY(-1px); }
+.sbb-btn-primario {
+  background: var(--g-azul2) !important; color: var(--g-blanco) !important;
+  border-color: var(--g-azul2) !important; font-weight: 500;
+}
+
+/* ── Cuerpo de tres paneles ── */
+.sbb-main { flex: 1; display: grid; grid-template-columns: 280px 1fr 320px; min-height: 0; }
+
+/* ── Sidebar de bloques ── */
+.sbb-sidebar { background: var(--g-gris-clr); border-right: 1px solid var(--g-borde); overflow-y: auto; padding: 16px; }
+.sbb-sidebar-tit { font-weight: 600; font-size: 13px; color: var(--g-azul); text-transform: uppercase; letter-spacing: .6px; margin-bottom: 12px; }
+.sbb-cat { font-size: 11px; font-weight: 500; color: #8a8f9e; text-transform: uppercase; letter-spacing: .5px; margin: 16px 0 8px; }
+.sbb-bloque-btn {
+  display: flex; align-items: center; gap: 10px; width: 100%;
+  padding: 10px 12px; margin-bottom: 8px;
+  background: var(--g-blanco); border: 1px solid var(--g-borde); border-radius: var(--g-r-md);
+  text-align: left; cursor: pointer; transition: var(--g-t); color: var(--g-gris-osc);
+}
+.sbb-bloque-btn:hover { border-color: var(--g-azul2); box-shadow: var(--g-sombra-soft); transform: translateY(-1px); }
+.sbb-bb-ico { display: grid; place-items: center; width: 30px; height: 30px; border-radius: var(--g-r-sm); background: var(--g-gris-clr); color: var(--g-azul2); flex: none; }
+.sbb-bb-txt { display: flex; flex-direction: column; line-height: 1.25; }
+.sbb-bb-txt strong { font-weight: 500; font-size: 14px; }
+.sbb-bb-txt small { font-size: 12px; color: #8a8f9e; }
+
+/* ── Lienzo ── */
+.sbb-canvas-wrap { overflow-y: auto; padding: 32px; background: #eef0f5; display: flex; justify-content: center; align-items: flex-start; }
+.sbb-canvas {
+  width: 100%; max-width: 720px; min-height: 70vh;
+  background: var(--g-blanco); border-radius: var(--g-r-lg);
+  box-shadow: var(--g-sombra-med); padding: 24px;
+}
+.sbb-vacio { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; min-height: 50vh; color: #aeb3c2; text-align: center; }
+.sbb-vacio p { margin: 8px 0 0; font-weight: 500; font-size: 16px; color: #8a8f9e; }
+.sbb-vacio span { font-size: 13px; }
+
+/* ── Bloque dentro del lienzo ── */
+.sbb-bloque { position: relative; border: 1px solid transparent; border-radius: var(--g-r-md); transition: border-color .2s ease; }
+.sbb-bloque:hover { border-color: #d7dbe8; }
+.sbb-bloque.sbb-sel { border-color: var(--g-azul2); }
+.sbb-bloque-barra { position: absolute; top: -12px; right: 8px; display: none; align-items: center; gap: 8px; padding: 3px 8px; background: var(--g-azul); border-radius: var(--g-r-sm); box-shadow: var(--g-sombra-soft); z-index: 2; }
+.sbb-bloque:hover .sbb-bloque-barra, .sbb-bloque.sbb-sel .sbb-bloque-barra { display: flex; }
+.sbb-bloque-nombre { font-size: 11px; font-weight: 500; color: var(--g-blanco); }
+.sbb-acciones { display: flex; gap: 2px; }
+.sbb-acciones button { display: grid; place-items: center; width: 24px; height: 24px; border: none; border-radius: 4px; background: transparent; color: rgba(255,255,255,.85); cursor: pointer; transition: var(--g-t); }
+.sbb-acciones button:hover { background: rgba(255,255,255,.15); color: var(--g-blanco); }
+.sbb-bloque-cuerpo { padding: 4px; }
+.sbb-editando { outline: 2px solid var(--g-turquesa); outline-offset: 2px; border-radius: 4px; }
+
+/* ── Panel de propiedades ── */
+.sbb-props { background: var(--g-blanco); border-left: 1px solid var(--g-borde); overflow-y: auto; padding: 16px; }
+.sbb-panel-titulo { font-weight: 600; font-size: 15px; color: var(--g-azul); padding-bottom: 12px; border-bottom: 1px solid var(--g-borde); margin-bottom: 12px; }
+.sbb-panel-vacio { color: #8a8f9e; font-size: 13px; padding: 24px 8px; text-align: center; }
+.sbb-grupo { font-size: 11px; font-weight: 600; color: var(--g-azul2); text-transform: uppercase; letter-spacing: .5px; margin: 16px 0 8px; }
+.sbb-ctrl { display: flex; flex-direction: column; gap: 5px; margin-bottom: 12px; }
+.sbb-ctrl > span { font-size: 12px; font-weight: 500; color: var(--g-gris-osc); }
+.sbb-ctrl input[type=text], .sbb-ctrl textarea, .sbb-ctrl select {
+  width: 100%; padding: 8px 10px; font: inherit; font-size: 13px;
+  border: 1px solid var(--g-borde); border-radius: var(--g-r-sm); background: var(--g-blanco); color: var(--g-gris-osc);
+  transition: var(--g-t);
+}
+.sbb-ctrl input:focus, .sbb-ctrl textarea:focus, .sbb-ctrl select:focus { outline: none; border-color: var(--g-azul2); box-shadow: 0 0 0 3px rgba(28,115,203,.12); }
+.sbb-ctrl textarea { resize: vertical; }
+.sbb-ctrl input[type=color] { width: 100%; height: 36px; padding: 2px; border: 1px solid var(--g-borde); border-radius: var(--g-r-sm); cursor: pointer; }
+.sbb-range { display: flex; align-items: center; gap: 8px; }
+.sbb-range input[type=range] { flex: 1; accent-color: var(--g-azul2); }
+.sbb-range-val { font-size: 12px; color: #8a8f9e; min-width: 38px; text-align: right; }
+.sbb-seg { display: inline-flex; border: 1px solid var(--g-borde); border-radius: var(--g-r-sm); overflow: hidden; }
+.sbb-seg button { width: 38px; height: 32px; border: none; background: var(--g-blanco); color: var(--g-gris-osc); cursor: pointer; font: inherit; transition: var(--g-t); }
+.sbb-seg button.on { background: var(--g-azul2); color: var(--g-blanco); }
