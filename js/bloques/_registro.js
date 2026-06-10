@@ -36,10 +36,20 @@ import video from "./video.js";
 import audio from "./audio.js";
 import galeria from "./galeria.js";
 import mapa from "./mapa.js";
+import hero from "./hero.js";
+import alert from "./alert.js";
+import seccion from "./seccion.js";
+import cardSimple from "./cardSimple.js";
+import badge from "./badge.js";
+import icono from "./icono.js";
+import forma from "./forma.js";
+import fondoPatron from "./fondoPatron.js";
+import codigo from "./codigo.js";
+import embed from "./embed.js";
 
 export const bloques = [
   // Estructura
-  header, divisor, espaciador, footer,
+  header, hero, seccion, alert, divisor, espaciador, footer,
   // Contenido
   texto, imagen, imgtext, features,
   // Acción
@@ -49,11 +59,15 @@ export const bloques = [
   // Datos
   kpi, statGrid, comparacionNum, tabla, ring, spark,
   // Cards
-  product, article, profileCard, testimonial,
+  cardSimple, product, article, profileCard, testimonial,
   // Widgets
   countdown, reloj, contador, clima, social,
   // Multimedia
   video, audio, galeria, mapa,
+  // Decoración
+  badge, icono, forma, fondoPatron,
+  // Avanzado
+  codigo, embed,
 ];
 
 // Mapa por id para acceso directo desde el render y el panel.
