@@ -1071,3 +1071,245 @@ Antes de tocar código, entrégame una tabla con:
 * Prioridad de corrección.
 
 Después de aprobar esa tabla, recién pasamos a código.
+
+## Referencias obligatorias de UX/UI, diseño y bibliotecas
+
+Antes de proponer cambios, componentes, layouts o correcciones visuales, debes apoyarte en referencias profesionales según el tipo de pieza.
+
+No copies diseños. Usa estas referencias para analizar patrones, buenas prácticas, estructura, jerarquía, componentes, comportamiento responsive, UX/UI, visualización de datos y calidad de ejecución.
+
+Si tienes navegación disponible, revisa estas fuentes.
+Si no tienes navegación disponible, declara que no pudiste visitar fuentes externas y trabaja con patrones profesionales conocidos.
+
+### Para UX/UI, aplicativos, interfaces y componentes
+
+Consultar o usar como referencia:
+
+* Mobbin
+* Pageflows
+* UI Sources
+* Figma Community
+* shadcn/ui
+* Tailwind UI
+* Flowbite
+* DaisyUI
+* Tremor
+* Vercel Templates
+* GitHub repositories de dashboards, admin panels, SaaS UI, builders, editors y landing pages
+* Product Hunt, solo para revisar cómo se presentan productos digitales
+
+Qué debes observar:
+
+* Arquitectura de navegación.
+* Jerarquía de acciones.
+* Estados: hover, active, focus, disabled, selected, empty, error, loading.
+* Diseño de formularios.
+* Diseño de paneles laterales.
+* Componentes editables.
+* Builders visuales.
+* Dashboards.
+* Tablas.
+* Cards.
+* Controles de imagen.
+* Controles de spacing.
+* Sistemas de tokens.
+* Responsive.
+* Accesibilidad visual básica.
+
+Cuando trabajes en aplicativos, debes aplicar conceptos de UX/UI:
+
+* Claridad de navegación.
+* Reducción de carga cognitiva.
+* Consistencia de componentes.
+* Agrupación lógica.
+* Feedback inmediato.
+* Estados visibles.
+* Acciones primarias y secundarias diferenciadas.
+* Flujo simple de uso.
+* Controles fáciles de entender.
+* Paneles de propiedades ordenados.
+* Prevención de errores.
+* Reversibilidad de cambios.
+* Accesibilidad básica.
+
+### Para landings y sitios comerciales
+
+Consultar o usar como referencia:
+
+* Land-book
+* Awwwards
+* Godly
+* Siteinspire
+* Httpster
+* Lapa Ninja
+* One Page Love
+* Framer templates
+* Webflow templates
+* Vercel Templates
+
+Qué debes observar:
+
+* Hero.
+* Titular.
+* Bajada.
+* CTA.
+* Secciones de problema y solución.
+* Cards de beneficios.
+* Bloques de prueba social.
+* Pricing.
+* Comparativos.
+* Uso de screenshots.
+* Ritmo entre secciones.
+* Mobile first.
+* Conversión.
+
+### Para emails
+
+Consultar o usar como referencia:
+
+* Really Good Emails
+* Email Love
+* Milled
+* Beefree templates
+* Stripo templates
+* Mailchimp examples
+
+Qué debes observar:
+
+* Estructura del email.
+* Encabezado.
+* Jerarquía del mensaje.
+* CTA principal.
+* Escaneabilidad.
+* Diseño mobile.
+* Bloques modulares.
+* Imágenes.
+* Botones.
+* Footer.
+* Compatibilidad con email marketing.
+
+### Para banners, anuncios y piezas publicitarias
+
+Consultar o usar como referencia:
+
+* Meta Ad Library
+* Google Ads Transparency Center
+* Ads of the World
+* Pinterest
+* Behance
+* Dribbble
+* Landing pages SaaS y performance ads de referencia
+
+Qué debes observar:
+
+* Claridad del mensaje.
+* Titular principal.
+* Promesa.
+* CTA.
+* Composición.
+* Imagen dominante.
+* Contraste.
+* Safe area.
+* Lectura en pocos segundos.
+* Diferencias entre awareness, consideración y conversión.
+
+### Para presentaciones, decks y materiales comerciales
+
+Consultar o usar como referencia:
+
+* Behance
+* Envato Elements
+* Pitch.com templates
+* Beautiful.ai
+* Reportes anuales de empresas
+* Presentaciones SaaS y pitch decks publicados
+* Diseño editorial de consultoras y empresas tecnológicas
+
+Qué debes observar:
+
+* Una idea por lámina.
+* Títulos con conclusión.
+* Uso de cifras grandes.
+* Grillas.
+* Secciones limpias.
+* Comparativos.
+* Visualización de problemas y soluciones.
+* Narrativa visual.
+* Cómo evitar láminas saturadas.
+
+### Para gráficas, dashboards y visualización de datos
+
+Consultar o usar como referencia:
+
+* Observable
+* D3 Gallery
+* Datawrapper
+* Flourish
+* Tableau Public
+* Looker Studio Gallery
+* Recharts examples
+* Nivo
+* ECharts examples
+* Chart.js examples
+* Tremor dashboards
+* GitHub repositories de data visualization y dashboards
+
+Qué debes observar:
+
+* Qué dato domina.
+* Qué conclusión se entiende.
+* Cómo se muestran KPIs.
+* Cómo se usan colores en datos.
+* Cómo se ordenan ejes.
+* Cómo se evitan gráficos innecesarios.
+* Cómo se destaca la variación.
+* Cómo se construyen dashboards legibles.
+* Cómo se hace responsive una gráfica.
+* Cómo se entrega fallback para email.
+
+Regla: no uses gráficos por decoración. Toda gráfica debe comunicar una conclusión.
+
+### Para avisos de prensa, piezas editoriales e impresos
+
+Consultar o usar como referencia:
+
+* Behance editorial design
+* Pinterest editorial layout
+* Envato editorial templates
+* Issuu reports
+* Reportes anuales de empresas
+* Publicidad impresa premium
+* Diseño editorial de revistas y consultoras
+
+Qué debes observar:
+
+* Titular dominante.
+* Bajada editorial.
+* Composición.
+* Uso de imagen.
+* Columnas.
+* Márgenes.
+* Jerarquía.
+* Integración de marca.
+* Equilibrio entre impacto y credibilidad.
+
+### Criterio final de uso de referencias
+
+Después de revisar referencias, debes extraer patrones y adaptarlos al Simple Block Builder.
+
+Antes de proponer cambios, define:
+
+1. Qué referencias sirven para el tipo de pieza.
+2. Qué patrón visual o UX/UI conviene tomar.
+3. Qué patrón no conviene copiar.
+4. Cómo se adapta al sistema de componentes del builder.
+5. Qué impacto tiene en canvas, tokens, responsive y exportación HTML.
+
+No copies estilos completos.
+
+No copies marcas.
+
+No copies interfaces completas.
+
+Usa las referencias para elevar el criterio, no para imitar.
+
