@@ -132,6 +132,11 @@ html, body {
 .sbb-imgurl input:focus { outline: none; border-color: var(--g-azul2); box-shadow: 0 0 0 3px rgba(28,115,203,.12); }
 .sbb-imgurl button { padding: 0 12px; font: inherit; font-size: 13px; font-weight: 500; color: var(--g-azul2); background: var(--g-blanco); border: 1px solid var(--g-azul2); border-radius: var(--g-r-sm); cursor: pointer; transition: var(--g-t); white-space: nowrap; }
 .sbb-imgurl button:hover { background: var(--g-azul2); color: var(--g-blanco); }
+.sbb-color { display: flex; align-items: center; gap: 8px; }
+.sbb-color input[type=color] { flex: 1; }
+.sbb-hered { font-size: 11px; color: #8a8f9e; font-style: italic; white-space: nowrap; }
+.sbb-reset { display: grid; place-items: center; width: 30px; height: 30px; flex: none; border: 1px solid var(--g-borde); border-radius: var(--g-r-sm); background: var(--g-blanco); color: var(--g-azul2); cursor: pointer; transition: var(--g-t); }
+.sbb-reset:hover { background: var(--g-gris-clr); }
 
 /* Hover del CTA en el editor (solo pantalla, no se exporta). */
 .sbb-cta-prev:hover { box-shadow: var(--g-sombra-med); transform: translateY(-1px); }

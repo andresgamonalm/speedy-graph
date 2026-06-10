@@ -1,13 +1,16 @@
 // Bloque: Botón CTA. Crítico para email → botón bulletproof (tabla, sin JS, sin flex).
-import { fuente } from "../core/tokens.js";
+import { fuente, paletaGamonal } from "../core/tokens.js";
 
 const esc = (s = "") =>
   String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 const url = (s = "#") => esc(String(s).trim() || "#");
 
-// Resuelve colores/borde según variante.
-function look(d) {
-  const fondo = d.colorFondo, txt = d.colorTexto, bor = d.colorBorde || d.colorFondo;
+// Resuelve colores/borde según variante. Hereda de la paleta activa (cta).
+function look(d, ctx) {
+  const pal = (ctx && ctx.paleta) || paletaGamonal;
+  const fondo = d.colorFondo ?? pal.cta;          // hereda de la paleta
+  const txt = d.colorTexto ?? "#FFFFFF";          // texto sobre botón: blanco por defecto
+  const bor = d.colorBorde || fondo;
   switch (d.variante) {
     case "secundario": return { bg: "#FFFFFF", color: fondo, border: bor, deco: "none" };
     case "outline":    return { bg: "transparent", color: fondo, border: bor, deco: "none" };
@@ -34,8 +37,8 @@ export default {
     padX: 24,
     padY: 12,
     radio: 6,
-    colorFondo: "#1C73CB",       // paleta activa: cta
-    colorTexto: "#FFFFFF",
+    colorFondo: null,            // null = hereda de la paleta activa (cta)
+    colorTexto: null,            // null = blanco por defecto
     colorBorde: "",
   },
 
@@ -56,12 +59,12 @@ export default {
     { grupo: "Bordes" },
     { k: "radio", tipo: "range", label: "Radio", min: 0, max: 32, paso: 2, suf: "px" },
     { grupo: "Color" },
-    { k: "colorFondo", tipo: "color", label: "Color principal" },
-    { k: "colorTexto", tipo: "color", label: "Color de texto" },
+    { k: "colorFondo", tipo: "color", label: "Color principal", hereda: "cta" },
+    { k: "colorTexto", tipo: "color", label: "Color de texto", heredaFijo: "#FFFFFF" },
   ],
 
-  renderPantalla(d) {
-    const l = look(d);
+  renderPantalla(d, ctx) {
+    const l = look(d, ctx);
     const full = d.ancho === "full";
     const aCss = [
       "display:inline-block", "box-sizing:border-box",
@@ -76,8 +79,8 @@ export default {
   },
 
   // Bulletproof: tabla + <a> con padding. Sin flex, sin JS. Degrada bien en Outlook/Gmail.
-  renderEmail(d) {
-    const l = look(d);
+  renderEmail(d, ctx) {
+    const l = look(d, ctx);
     const full = d.ancho === "full";
     const aCss = [
       "display:inline-block", `font-family:${fuente}`, `font-size:${d.tamano}px`,

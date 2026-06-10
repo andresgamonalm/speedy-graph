@@ -2,6 +2,7 @@
 // grupos que el bloque declara. Indica herencia y permite editar overrides.
 import { porId } from "../bloques/_registro.js";
 import { actualizar } from "../core/estado.js";
+import { icono } from "../core/iconos.js";
 
 export function renderPanel(cont, estado) {
   const sel = estado.piezas.find((p) => p.id === estado.seleccion);
@@ -10,14 +11,14 @@ export function renderPanel(cont, estado) {
     return;
   }
   const b = porId[sel.tipo];
-  const filas = b.campos.map((c) => (c.grupo ? grupo(c.grupo) : control(c, sel))).join("");
+  const filas = b.campos.map((c) => (c.grupo ? grupo(c.grupo) : control(c, sel, estado.paleta))).join("");
   cont.innerHTML = `<div class="sbb-panel-titulo">${b.nombre}</div>${filas}`;
   bind(cont, sel.id);
 }
 
 const grupo = (t) => `<div class="sbb-grupo">${t}</div>`;
 
-function control(c, sel) {
+function control(c, sel, paleta) {
   const v = sel.datos[c.k];
   const id = `f_${c.k}`;
   let campo = "";
@@ -33,9 +34,21 @@ function control(c, sel) {
     case "range":
       campo = `<div class="sbb-range"><input id="${id}" data-k="${c.k}" type="range" min="${c.min}" max="${c.max}" step="${c.paso || 1}" value="${v ?? c.min}"><span class="sbb-range-val">${v ?? c.placeholder || ""}${v != null ? c.suf || "" : ""}</span></div>`;
       break;
-    case "color":
-      campo = `<input id="${id}" data-k="${c.k}" type="color" value="${v || "#000000"}">`;
+    case "color": {
+      // Herencia real: si el override es null, muestra el color heredado de la paleta
+      // y lo marca como "Heredado". Si hay override, ofrece reset (volver a heredado).
+      const heredado = c.hereda ? (paleta && paleta[c.hereda]) : c.heredaFijo;
+      const heredable = heredado != null;
+      const esOverride = v != null;
+      const shown = (esOverride ? v : heredado) || "#000000";
+      const extra = heredable
+        ? esOverride
+          ? `<button type="button" class="sbb-reset" data-reset="${c.k}" title="Volver a heredado">${icono("undo", 14)}</button>`
+          : `<span class="sbb-hered">Heredado</span>`
+        : "";
+      campo = `<div class="sbb-color"><input id="${id}" data-k="${c.k}" type="color" value="${shown}">${extra}</div>`;
       break;
+    }
     case "imgurl":
       campo = `<div class="sbb-imgurl"><input id="${id}" data-k="${c.k}" type="text" value="${v ?? ""}" placeholder="https://…"><button type="button" data-pick="${c.k}">Elegir</button></div>`;
       break;
@@ -61,6 +74,10 @@ function bind(cont, idPieza) {
       const nueva = window.prompt("URL de la imagen:", input.value || "https://");
       if (nueva != null) { input.value = nueva.trim(); actualizar(idPieza, btn.dataset.pick, input.value); }
     });
+  });
+  // Reset de color: vuelve el override a null (heredado).
+  cont.querySelectorAll("[data-reset]").forEach((btn) => {
+    btn.addEventListener("click", () => actualizar(idPieza, btn.dataset.reset, null));
   });
   cont.querySelectorAll("[data-k]").forEach((el) => {
     const k = el.dataset.k;

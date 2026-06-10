@@ -18,7 +18,7 @@ export function renderLienzo(cont, estado) {
     .map((p) => {
       const b = porId[p.tipo];
       const sel = p.id === estado.seleccion;
-      const inner = b ? b.renderPantalla(p.datos) : `<em>Bloque desconocido: ${p.tipo}</em>`;
+      const inner = b ? b.renderPantalla(p.datos, { paleta: estado.paleta }) : `<em>Bloque desconocido: ${p.tipo}</em>`;
       return `
         <div class="sbb-bloque${sel ? " sbb-sel" : ""}" data-id="${p.id}">
           <div class="sbb-bloque-barra">

@@ -1,18 +1,21 @@
 // Bloque: Texto. Patrón de referencia para todos los demás.
 // Exporta { id, cat, nombre, sub, icon, defaults, campos, renderPantalla, renderEmail }.
-import { roles, fuente, spacing } from "../core/tokens.js";
+import { roles, fuente, paletaGamonal } from "../core/tokens.js";
 
 // Escape para no romper el HTML con contenido del usuario.
 const esc = (s = "") =>
   String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
-// Estilo tipográfico común a ambos renders, derivado del rol + overrides.
-function estilo(d) {
+// Estilo tipográfico común a ambos renders. Hereda del rol y de la paleta activa.
+// Los overrides (tamano/peso/color en null) caen al valor heredado.
+function estilo(d, ctx) {
+  const pal = (ctx && ctx.paleta) || paletaGamonal;
   const r = roles[d.rol] || roles.parrafo;
-  const size = d.tamano ?? r.size;
-  const weight = Math.min(d.peso ?? r.weight, 600); // nunca >600
+  const size = d.tamano ?? r.size;                       // hereda del rol
+  const weight = Math.min(d.peso ?? r.weight, 600);      // hereda del rol; nunca >600
   const italic = d.italica || r.italic ? "italic" : "normal";
-  return { size, weight, italic, lh: r.lh, color: d.color, alin: d.alin };
+  const color = d.color ?? pal.textoPrincipal;           // hereda de la paleta activa
+  return { size, weight, italic, lh: r.lh, color, alin: d.alin };
 }
 
 export default {
@@ -29,7 +32,7 @@ export default {
     tamano: null,        // null = hereda del rol
     peso: null,
     italica: false,
-    color: "#3B3B3B",    // = paleta.textoPrincipal por defecto
+    color: null,         // null = hereda de la paleta activa (textoPrincipal)
     alin: "left",
     margenSup: 0,
     margenInf: 16,
@@ -46,15 +49,15 @@ export default {
     { k: "italica", tipo: "check", label: "Cursiva" },
     { k: "alin", tipo: "alignH", label: "Alineación" },
     { grupo: "Color" },
-    { k: "color", tipo: "color", label: "Color de texto" },
+    { k: "color", tipo: "color", label: "Color de texto", hereda: "textoPrincipal" },
     { grupo: "Espaciado" },
     { k: "margenSup", tipo: "range", label: "Margen superior", min: 0, max: 80, paso: 4, suf: "px" },
     { k: "margenInf", tipo: "range", label: "Margen inferior", min: 0, max: 80, paso: 4, suf: "px" },
   ],
 
   // Pantalla: editable y lindo. Edición directa vía data-edit.
-  renderPantalla(d) {
-    const e = estilo(d);
+  renderPantalla(d, ctx) {
+    const e = estilo(d, ctx);
     const css = [
       `font-family:${fuente}`,
       `font-size:${e.size}px`,
@@ -70,8 +73,8 @@ export default {
   },
 
   // Email: bulletproof. Solo tabla + inline. Sin flex, grid, aspect-ratio, transform, etc.
-  renderEmail(d) {
-    const e = estilo(d);
+  renderEmail(d, ctx) {
+    const e = estilo(d, ctx);
     const tdCss = [
       `font-family:${fuente}`,
       `font-size:${e.size}px`,
