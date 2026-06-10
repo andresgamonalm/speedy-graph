@@ -7,8 +7,18 @@ import { renderPanel } from "../features/panel-props.js";
 import { renderGlobal } from "../features/panel-global.js";
 import { activarEdicionDirecta } from "../features/edicion-directa.js";
 import { generarEmail } from "../features/export-email.js";
+import { generarWeb } from "../features/export-web.js";
 import { plantillas } from "../features/plantillas.js";
 import { icono } from "../core/iconos.js";
+
+function descargar(nombre, contenido) {
+  const blob = new Blob([contenido], { type: "text/html;charset=utf-8" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = nombre;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
 
 let modoGlobal = false;
 
@@ -146,7 +156,11 @@ function abrirPreview(html) {
     <div class="sbb-modal-caja">
       <div class="sbb-modal-top">
         <span>Vista previa · Email</span>
-        <button class="sbb-modal-x" title="Cerrar">${icono("x", 18)}</button>
+        <span style="display:flex;gap:8px;align-items:center">
+          <button id="dl-email" class="sbb-btn-primario" style="height:32px">${icono("down", 14)} Email HTML</button>
+          <button id="dl-web" style="height:32px;border:1px solid var(--g-borde);border-radius:6px;background:#fff;padding:0 12px;cursor:pointer;font:inherit;font-size:13px">${icono("down", 14)} Web HTML</button>
+          <button class="sbb-modal-x" title="Cerrar">${icono("x", 18)}</button>
+        </span>
       </div>
       <iframe class="sbb-modal-frame" title="Vista previa"></iframe>
     </div>`;
@@ -155,6 +169,8 @@ function abrirPreview(html) {
   const cerrar = () => ov.remove();
   ov.querySelector(".sbb-modal-x").addEventListener("click", cerrar);
   ov.addEventListener("click", (e) => { if (e.target === ov) cerrar(); });
+  ov.querySelector("#dl-email").addEventListener("click", () => descargar("pieza-email.html", generarEmail(E.getEstado())));
+  ov.querySelector("#dl-web").addEventListener("click", () => descargar("pieza-web.html", generarWeb(E.getEstado())));
 }
 
 // ── Render reactivo ──
