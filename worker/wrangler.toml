@@ -1,0 +1,28 @@
+# Configuración de Cloudflare Workers para speedy-graph.gamonal.app
+# Despliegue: ver worker/README.md. Requiere wrangler y una cuenta de Cloudflare.
+
+name = "speedy-graph"
+main = "worker.js"
+compatibility_date = "2026-01-01"
+
+# Sirve el editor estático (la raíz del repo: index.html, css/, js/).
+[assets]
+directory = "../"
+binding = "ASSETS"
+
+# Base de datos D1 (proyectos). Crea con: wrangler d1 create speedy-graph
+[[d1_databases]]
+binding = "DB"
+database_name = "speedy-graph"
+database_id = "REEMPLAZAR_CON_TU_DATABASE_ID"
+
+# Bucket R2 (imágenes). Crea con: wrangler r2 bucket create speedy-graph-img
+[[r2_buckets]]
+binding = "BUCKET"
+bucket_name = "speedy-graph-img"
+
+# El secreto ANTHROPIC_API_KEY se carga con: wrangler secret put ANTHROPIC_API_KEY
+# (no se escribe aquí en texto plano).
+
+[vars]
+APP = "speedy-graph"
