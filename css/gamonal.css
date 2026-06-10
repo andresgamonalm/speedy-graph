@@ -138,6 +138,17 @@ html, body {
 .sbb-reset { display: grid; place-items: center; width: 30px; height: 30px; flex: none; border: 1px solid var(--g-borde); border-radius: var(--g-r-sm); background: var(--g-blanco); color: var(--g-azul2); cursor: pointer; transition: var(--g-t); }
 .sbb-reset:hover { background: var(--g-gris-clr); }
 
+/* Editor de listas en el panel */
+.sbb-lista { margin-bottom: 12px; }
+.sbb-item { border: 1px solid var(--g-borde); border-radius: var(--g-r-md); padding: 10px; margin-bottom: 8px; background: var(--g-gris-clr); }
+.sbb-item-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+.sbb-item-top span { font-size: 11px; font-weight: 600; color: var(--g-azul2); text-transform: uppercase; letter-spacing: .4px; }
+.sbb-item-x { display: grid; place-items: center; width: 24px; height: 24px; border: none; background: transparent; color: #8a8f9e; border-radius: 4px; cursor: pointer; transition: var(--g-t); }
+.sbb-item-x:hover { background: #f3d6d6; color: #c0392b; }
+.sbb-item .sbb-ctrl { margin-bottom: 8px; }
+.sbb-add { display: inline-flex; align-items: center; gap: 6px; width: 100%; justify-content: center; padding: 9px; font: inherit; font-size: 13px; font-weight: 500; color: var(--g-azul2); background: var(--g-blanco); border: 1px dashed var(--g-azul2); border-radius: var(--g-r-sm); cursor: pointer; transition: var(--g-t); }
+.sbb-add:hover { background: var(--g-gris-clr); }
+
 /* Hover del CTA en el editor (solo pantalla, no se exporta). */
 .sbb-cta-prev:hover { box-shadow: var(--g-sombra-med); transform: translateY(-1px); }
 

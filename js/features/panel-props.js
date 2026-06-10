@@ -1,8 +1,11 @@
 // Panel de propiedades. Orden fijo de grupos en TODOS los bloques. Solo muestra los
 // grupos que el bloque declara. Indica herencia y permite editar overrides.
 import { porId } from "../bloques/_registro.js";
-import { actualizar } from "../core/estado.js";
+import { actualizar, agregarItem, quitarItem } from "../core/estado.js";
 import { icono } from "../core/iconos.js";
+
+// Lee un valor por ruta (admite anidados "items.0.titulo").
+const getPath = (o, ruta) => ruta.split(".").reduce((a, k) => (a == null ? a : a[k]), o);
 
 export function renderPanel(cont, estado) {
   const sel = estado.piezas.find((p) => p.id === estado.seleccion);
@@ -11,6 +14,7 @@ export function renderPanel(cont, estado) {
     return;
   }
   const b = porId[sel.tipo];
+  cont.__tipo = b.id;
   const filas = b.campos.map((c) => (c.grupo ? grupo(c.grupo) : control(c, sel, estado.paleta))).join("");
   cont.innerHTML = `<div class="sbb-panel-titulo">${b.nombre}</div>${filas}`;
   bind(cont, sel.id);
@@ -19,10 +23,19 @@ export function renderPanel(cont, estado) {
 const grupo = (t) => `<div class="sbb-grupo">${t}</div>`;
 
 function control(c, sel, paleta) {
-  const v = sel.datos[c.k];
+  const v = getPath(sel.datos, c.k);
   const id = `f_${c.k}`;
   let campo = "";
   switch (c.tipo) {
+    case "lista": {
+      const arr = Array.isArray(v) ? v : [];
+      const items = arr
+        .map(
+          (_, i) => `<div class="sbb-item"><div class="sbb-item-top"><span>${c.label} ${i + 1}</span><button type="button" class="sbb-item-x" data-del-item="${c.k}::${i}" title="Quitar">${icono("trash", 13)}</button></div>${c.sub.map((sf) => control({ ...sf, k: `${c.k}.${i}.${sf.k}` }, sel, paleta)).join("")}</div>`
+        )
+        .join("");
+      return `<div class="sbb-lista"><div class="sbb-grupo">${c.label}</div>${items}<button type="button" class="sbb-add" data-add-item="${c.k}">${icono("plus", 14)} Agregar</button></div>`;
+    }
     case "textarea":
       campo = `<textarea id="${id}" data-k="${c.k}" rows="3">${v ?? ""}</textarea>`;
       break;
@@ -78,6 +91,20 @@ function bind(cont, idPieza) {
   // Reset de color: vuelve el override a null (heredado).
   cont.querySelectorAll("[data-reset]").forEach((btn) => {
     btn.addEventListener("click", () => actualizar(idPieza, btn.dataset.reset, null));
+  });
+  // Listas: agregar / quitar ítems.
+  cont.querySelectorAll("[data-add-item]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const b = porId[cont.__tipo];
+      const def = b.campos.find((c) => c.k === btn.dataset.addItem);
+      agregarItem(idPieza, btn.dataset.addItem, def?.nuevo || {});
+    });
+  });
+  cont.querySelectorAll("[data-del-item]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const [k, i] = btn.dataset.delItem.split("::");
+      quitarItem(idPieza, k, Number(i));
+    });
   });
   cont.querySelectorAll("[data-k]").forEach((el) => {
     const k = el.dataset.k;

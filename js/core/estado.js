@@ -84,5 +84,21 @@ export function mover(idPieza, delta) {
   notificar();
 }
 
+// ── Operaciones sobre listas de ítems dentro de un bloque (features, pricing…) ──
+export function agregarItem(idPieza, k, item) {
+  const p = estado.piezas.find((x) => x.id === idPieza);
+  if (!p || !Array.isArray(p.datos[k])) return;
+  guardarHistorial();
+  p.datos[k].push(structuredClone(item));
+  notificar();
+}
+export function quitarItem(idPieza, k, idx) {
+  const p = estado.piezas.find((x) => x.id === idPieza);
+  if (!p || !Array.isArray(p.datos[k])) return;
+  guardarHistorial();
+  p.datos[k].splice(idx, 1);
+  notificar();
+}
+
 export function deshacer() { if (!undo.length) return; redo.push(snapshot()); restaurar(undo.pop()); notificar(); }
 export function rehacer() { if (!redo.length) return; undo.push(snapshot()); restaurar(redo.pop()); notificar(); }

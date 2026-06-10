@@ -1,12 +1,20 @@
 // Registro central de bloques. Cada bloque vive en su archivo y se suma aquí.
 // Agregar un bloque = crear su archivo + una línea de import abajo.
+import header from "./header.js";
 import texto from "./texto.js";
-import cta from "./cta.js";
 import imagen from "./imagen.js";
+import features from "./features.js";
+import cta from "./cta.js";
+import divisor from "./divisor.js";
+import espaciador from "./espaciador.js";
+import footer from "./footer.js";
 
 export const bloques = [
-  texto,
-  imagen,
+  // Estructura
+  header, divisor, espaciador, footer,
+  // Contenido
+  texto, imagen, features,
+  // Acción
   cta,
 ];
 
