@@ -45,7 +45,7 @@ function control(c, sel, paleta) {
         .join("")}</select>`;
       break;
     case "range":
-      campo = `<div class="sbb-range"><input id="${id}" data-k="${c.k}" type="range" min="${c.min}" max="${c.max}" step="${c.paso || 1}" value="${v ?? c.min}"><span class="sbb-range-val">${v ?? c.placeholder || ""}${v != null ? c.suf || "" : ""}</span></div>`;
+      campo = `<div class="sbb-range"><input id="${id}" data-k="${c.k}" type="range" min="${c.min}" max="${c.max}" step="${c.paso || 1}" value="${v ?? c.min}"><span class="sbb-range-val">${v != null ? v : (c.placeholder || "")}${v != null ? c.suf || "" : ""}</span></div>`;
       break;
     case "color": {
       // Herencia real: si el override es null, muestra el color heredado de la paleta
