@@ -8,6 +8,12 @@ import cta from "./cta.js";
 import divisor from "./divisor.js";
 import espaciador from "./espaciador.js";
 import footer from "./footer.js";
+import kpi from "./kpi.js";
+import ring from "./ring.js";
+import spark from "./spark.js";
+import tabla from "./tabla.js";
+import comparacionNum from "./comparacionNum.js";
+import statGrid from "./statGrid.js";
 
 export const bloques = [
   // Estructura
@@ -16,6 +22,8 @@ export const bloques = [
   texto, imagen, features,
   // Acción
   cta,
+  // Datos
+  kpi, statGrid, comparacionNum, tabla, ring, spark,
 ];
 
 // Mapa por id para acceso directo desde el render y el panel.
