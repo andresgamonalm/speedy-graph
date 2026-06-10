@@ -32,6 +32,10 @@ import reloj from "./reloj.js";
 import contador from "./contador.js";
 import clima from "./clima.js";
 import social from "./social.js";
+import video from "./video.js";
+import audio from "./audio.js";
+import galeria from "./galeria.js";
+import mapa from "./mapa.js";
 
 export const bloques = [
   // Estructura
@@ -48,6 +52,8 @@ export const bloques = [
   product, article, profileCard, testimonial,
   // Widgets
   countdown, reloj, contador, clima, social,
+  // Multimedia
+  video, audio, galeria, mapa,
 ];
 
 // Mapa por id para acceso directo desde el render y el panel.
