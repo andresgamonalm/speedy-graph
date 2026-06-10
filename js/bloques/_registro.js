@@ -14,6 +14,12 @@ import spark from "./spark.js";
 import tabla from "./tabla.js";
 import comparacionNum from "./comparacionNum.js";
 import statGrid from "./statGrid.js";
+import oferta from "./oferta.js";
+import pricing from "./pricing.js";
+import product from "./product.js";
+import profileCard from "./profileCard.js";
+import article from "./article.js";
+import testimonial from "./testimonial.js";
 
 export const bloques = [
   // Estructura
@@ -21,9 +27,11 @@ export const bloques = [
   // Contenido
   texto, imagen, features,
   // Acción
-  cta,
+  cta, oferta, pricing,
   // Datos
   kpi, statGrid, comparacionNum, tabla, ring, spark,
+  // Cards
+  product, article, profileCard, testimonial,
 ];
 
 // Mapa por id para acceso directo desde el render y el panel.
