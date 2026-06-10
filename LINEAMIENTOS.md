@@ -1313,3 +1313,385 @@ No copies interfaces completas.
 
 Usa las referencias para elevar el criterio, no para imitar.
 
+## Interfaz general del Simple Block Builder
+
+Además de los componentes, debes entender la interfaz completa del producto.
+
+Simple Block Builder no es solo un editor de bloques. Es una herramienta visual para crear piezas comerciales, emails, banners, landings, avisos, gráficas y creatividades digitales mediante un sistema modular.
+
+La interfaz tiene estas áreas principales:
+
+### 1. Pantalla de proyectos
+
+La pantalla de proyectos muestra las creatividades existentes dentro de un proyecto.
+
+Debe permitir:
+
+* Ver nombre del proyecto.
+* Ver lista de piezas creadas.
+* Distinguir tipo de pieza: email, banner, formato libre u otro.
+* Ver estado: borrador, listo u otro.
+* Editar una pieza.
+* Previsualizar una pieza.
+* Duplicar una pieza.
+* Eliminar una pieza.
+* Crear una nueva creatividad.
+
+Reglas UX/UI:
+
+* La tabla debe ser clara y escaneable.
+* Las acciones deben ser consistentes.
+* Los estados deben tener color o indicador visual.
+* El botón de nueva creatividad debe ser visible.
+* La navegación debe permitir volver a proyectos sin perder contexto.
+* No debe haber acciones ambiguas.
+
+### 2. Editor visual
+
+El editor visual tiene:
+
+* Barra superior.
+* Panel lateral izquierdo.
+* Canvas central.
+* Controles de formato.
+* Vista desktop, tablet y mobile.
+* Vista previa.
+* Enviar prueba.
+* Generador con IA Char-B.
+* Exportación.
+* Acciones como duplicar, subir, eliminar o guardar.
+
+Reglas UX/UI:
+
+* El canvas debe ser el centro del trabajo.
+* El panel lateral debe ordenar componentes y propiedades.
+* La barra superior debe contener acciones globales.
+* Los controles deben ser consistentes.
+* Las acciones destructivas deben estar diferenciadas.
+* No debe haber controles duplicados o contradictorios.
+* La interfaz debe dejar claro si el usuario está editando diseño global, un bloque o una plantilla.
+
+### 3. Panel lateral de bloques
+
+El panel lateral de bloques organiza los componentes por categorías.
+
+Categorías actuales:
+
+* Estructura.
+* Contenido.
+* Acción.
+* Agenda.
+* Datos.
+* Cards.
+* Multimedia.
+* Widgets.
+* Decoración.
+* Avanzado.
+
+Reglas UX/UI:
+
+* Cada bloque debe tener nombre claro.
+* Cada bloque debe tener una descripción breve.
+* Cada bloque debe tener ícono consistente.
+* Los bloques deben agruparse por uso real, no por conveniencia técnica.
+* El usuario debe entender qué hace cada bloque antes de arrastrarlo.
+* No deben existir bloques duplicados con nombres distintos pero función similar.
+* Los bloques avanzados deben estar separados para no confundir a usuarios comunes.
+
+### 4. Panel de diseño global
+
+El panel de diseño global controla la identidad visual y la configuración base de la pieza.
+
+Debe incluir:
+
+* Marca activa.
+* Tipografía.
+* Paleta.
+* Color principal.
+* Color de texto.
+* Color de fondo.
+* Color CTA.
+* Fondo de página.
+* Ancho del lienzo.
+* Distancia entre bloques.
+* Radio de bordes.
+* Margen del lienzo.
+* Configuración responsive.
+
+Reglas UX/UI:
+
+* Todo cambio global debe afectar los bloques que heredan estilos globales.
+* Si un bloque tiene override local, debe indicarse visualmente.
+* Debe existir opción para resetear un bloque al estilo global.
+* Los controles deben estar agrupados por tema.
+* No mezclar diseño global con propiedades internas de un bloque.
+* El usuario debe entender qué es global y qué es local.
+
+### 5. Panel de edición de bloque
+
+Cuando el usuario selecciona un bloque, el panel debe mostrar solo las propiedades relevantes para ese bloque.
+
+Debe organizarse en grupos:
+
+* Contenido.
+* Layout.
+* Espaciado.
+* Tipografía.
+* Color.
+* Imagen, si aplica.
+* Bordes.
+* Sombra.
+* Responsive.
+* Estados.
+* Exportación.
+* Avanzado.
+
+Reglas UX/UI:
+
+* No mostrar controles que no aplican al bloque seleccionado.
+* Mantener el mismo orden de propiedades en todos los bloques.
+* Usar nombres claros.
+* Evitar controles técnicos si pueden expresarse de forma simple.
+* Mostrar qué valores vienen heredados y cuáles son overrides.
+* Permitir reset a global.
+* Evitar que un bloque modifique estilos globales accidentalmente.
+
+### 6. Canvas central
+
+El canvas central representa la pieza visual.
+
+Debe:
+
+* Mostrar el tamaño real o proporcional del formato.
+* Respetar el ancho del lienzo.
+* Mostrar bloques dentro del área útil.
+* Permitir arrastrar, ordenar y seleccionar bloques.
+* Mostrar estado vacío cuando no hay contenido.
+* Diferenciar el fondo del editor del fondo real de la pieza.
+* Mantener fidelidad entre editor, vista previa y exportación.
+
+Reglas UX/UI:
+
+* El canvas manda.
+* Ningún bloque debe exceder el área útil salvo que exista una opción explícita de full width.
+* La escala de previsualización no debe alterar el HTML exportado.
+* El usuario debe distinguir claramente qué es área editable y qué es fondo externo.
+* Debe haber feedback visual al arrastrar bloques.
+* Debe haber feedback visual al seleccionar un bloque.
+
+### 7. Plantillas
+
+El editor tiene plantillas para distintos formatos.
+
+Plantillas actuales:
+
+* Email promoción / oferta.
+* Email newsletter / artículos.
+* Email bienvenida / informativo.
+* LinkedIn portada perfil.
+* LinkedIn post cuadrado.
+* LinkedIn enlace.
+* Facebook post.
+* Cuadrado 1080x1080.
+* Story 1080x1920.
+* Portada 820x312.
+* Google Display set desktop.
+* Ocho banners separados.
+
+Reglas UX/UI:
+
+* Cada plantilla debe cargar canvas, dimensiones, safe areas y estructura base.
+* Las plantillas no deben crear bloques con reglas propias.
+* Toda plantilla debe usar los mismos tokens globales.
+* Una plantilla es una composición prearmada, no un sistema visual paralelo.
+* Las plantillas deben poder editarse sin romper componentes.
+* Los formatos fijos deben respetar proporciones exactas.
+
+### 8. Biblioteca de imágenes
+
+La biblioteca de imágenes permite seleccionar recursos visuales.
+
+Debe permitir:
+
+* Elegir imágenes existentes.
+* Subir imágenes nuevas.
+* Asociar imágenes a una marca o proyecto.
+* Insertar imagen en bloques.
+* Usar imágenes en el motor de IA solo si el usuario lo permite.
+* Mantener alt text o descripción.
+* Evitar imágenes rotas.
+
+Reglas UX/UI:
+
+* El usuario debe poder elegir imagen manualmente.
+* La IA no debe inventar imágenes si se indicó usar solo biblioteca.
+* Las imágenes deben conservar proporción.
+* El editor debe permitir crop, foco, zoom y posición dentro del contenedor.
+* La biblioteca debe ser clara y fácil de navegar.
+
+### 9. Motor de IA Char-B
+
+Char-B es el motor de IA del builder.
+
+Sirve para generar piezas a partir de:
+
+* Marca.
+* Producto: Email Marketing o Banners Display.
+* Tipo de email o pieza.
+* Necesidad del usuario.
+* CTA.
+* Gancho u oferta.
+* Destino del CTA.
+* URLs de referencia.
+* Fotos de biblioteca.
+* Indicaciones generales.
+
+Reglas UX/UI y funcionales:
+
+* Char-B debe pedir información suficiente, pero no sobrecargar.
+* Los campos obligatorios deben estar claramente marcados.
+* Las instrucciones deben ser claras y comerciales.
+* La IA debe respetar la marca seleccionada.
+* La IA debe usar solo imágenes permitidas por el usuario.
+* La IA no debe inventar datos, precios, ofertas, clientes ni beneficios.
+* La IA debe generar una pieza editable, no una imagen cerrada.
+* La pieza generada debe usar los mismos bloques, tokens y reglas del editor.
+* Char-B no debe crear estilos fuera del sistema.
+* Char-B no debe resolver una pieza con HTML aislado si existen componentes nativos.
+* Toda salida de Char-B debe quedar lista para ajustar en el editor.
+
+### 10. Flujo correcto de Char-B
+
+Antes de generar una pieza, Char-B debe entender:
+
+1. Marca seleccionada.
+2. Tipo de producto: email o banner.
+3. Tipo de comunicación: comercial, corporativo, informativo, newsletter u otro.
+4. Necesidad principal.
+5. CTA.
+6. Oferta o gancho, si existe.
+7. URL destino.
+8. Referencias.
+9. Imágenes permitidas.
+10. Restricciones o indicaciones del usuario.
+11. Formato final.
+12. Objetivo de la pieza.
+
+Después debe generar:
+
+* Estructura de bloques.
+* Textos.
+* Jerarquía visual.
+* Uso de color desde la marca.
+* Imágenes desde biblioteca si aplica.
+* CTA.
+* Diseño editable.
+* Responsive.
+* Exportación compatible.
+
+### 11. Reglas para IA y componentes
+
+Char-B debe construir con los mismos componentes del editor.
+
+No debe crear una pieza con reglas paralelas.
+
+No debe generar:
+
+* Padding arbitrario.
+* Colores fuera de la marca.
+* Fuentes fuera de la marca.
+* Imágenes deformadas.
+* Bloques fuera del canvas.
+* HTML aislado si puede usar componentes nativos.
+* Estilos globales que rompan otros bloques.
+* Componentes imposibles de editar.
+
+La IA debe respetar:
+
+* Canvas.
+* Tokens.
+* Grid.
+* Tipografía.
+* Paleta.
+* Responsive.
+* Exportación.
+* Compatibilidad email.
+* Propiedades editables.
+
+### 12. Vista previa
+
+La vista previa debe mostrar cómo se verá la pieza fuera del editor.
+
+Debe permitir revisar:
+
+* Desktop.
+* Tablet.
+* Mobile.
+* Email si aplica.
+* Banner si aplica.
+* Formato final.
+* Links.
+* Imágenes.
+* CTA.
+* Overflow.
+* Cortes de texto.
+
+Reglas UX/UI:
+
+* Vista previa debe ser fiel al export.
+* No debe mostrar controles del editor.
+* Debe advertir si algo se sale del canvas.
+* Debe advertir si falta alt text.
+* Debe advertir si hay bajo contraste.
+* Debe advertir si hay links vacíos.
+* Debe advertir si un bloque no es compatible con email.
+
+### 13. Exportación
+
+La exportación debe producir HTML limpio y utilizable.
+
+Debe respetar:
+
+* Canvas.
+* Formato.
+* Marca.
+* Tipografía.
+* Paleta.
+* Componentes.
+* Responsive.
+* Compatibilidad email si aplica.
+
+Reglas:
+
+* No exportar wrappers innecesarios.
+* No exportar CSS duplicado.
+* No exportar estilos globales accidentales.
+* No exportar elementos huérfanos.
+* No romper imágenes.
+* No perder links.
+* No deformar botones.
+* No cambiar proporciones.
+* No cambiar padding.
+* No cambiar responsive.
+
+### 14. Regla final de interfaz
+
+Antes de corregir código, debes entender que Simple Block Builder es un producto completo, no una colección de bloques sueltos.
+
+Cualquier cambio debe revisar impacto en:
+
+* Pantalla de proyectos.
+* Editor visual.
+* Panel de bloques.
+* Panel de diseño global.
+* Panel de edición de bloque.
+* Canvas.
+* Plantillas.
+* Biblioteca de imágenes.
+* Char-B.
+* Vista previa.
+* Exportación.
+
+No corrijas un componente sin revisar cómo afecta la experiencia completa.
+
+
