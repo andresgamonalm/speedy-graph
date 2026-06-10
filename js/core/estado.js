@@ -137,6 +137,16 @@ export function setPaletaColor(rol, hex) {
   notificar();
 }
 export function setFormato(f) { guardarHistorial(); estado.formato = f; notificar(); }
+
+// Carga una plantilla (composición prearmada). Asigna ids nuevos a todo el árbol.
+export function cargarPlantilla(piezas, formato, paleta) {
+  guardarHistorial();
+  estado.piezas = piezas.map((p) => reIdar(structuredClone(p)));
+  if (formato) estado.formato = formato;
+  if (paleta) estado.paleta = { ...estado.paleta, ...paleta };
+  estado.seleccion = null;
+  notificar();
+}
 export function aplicarKit(paleta) {
   guardarHistorial();
   estado.paleta = { ...estado.paleta, ...paleta };

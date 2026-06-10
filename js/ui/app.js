@@ -7,6 +7,7 @@ import { renderPanel } from "../features/panel-props.js";
 import { renderGlobal } from "../features/panel-global.js";
 import { activarEdicionDirecta } from "../features/edicion-directa.js";
 import { generarEmail } from "../features/export-email.js";
+import { plantillas } from "../features/plantillas.js";
 import { icono } from "../core/iconos.js";
 
 let modoGlobal = false;
@@ -20,6 +21,7 @@ app.innerHTML = `
       <span class="sbb-marca-txt">Simple Block Builder</span>
     </div>
     <div class="sbb-top-acc">
+      <button id="plantillas" title="Plantillas">${icono("copy", 16)} Plantillas</button>
       <button id="global" title="Diseño global">${icono("layers", 16)} Diseño global</button>
       <button id="undo" title="Deshacer">${icono("undo")}</button>
       <button id="redo" title="Rehacer">${icono("redo")}</button>
@@ -109,6 +111,26 @@ setInterval(() => {
     el.textContent = new Date().toLocaleTimeString("es", o);
   });
 }, 1000);
+
+document.getElementById("plantillas").addEventListener("click", abrirPlantillas);
+function abrirPlantillas() {
+  const ov = document.createElement("div");
+  ov.className = "sbb-modal";
+  ov.innerHTML = `<div class="sbb-modal-caja" style="max-width:520px;height:auto">
+    <div class="sbb-modal-top"><span>Plantillas</span><button class="sbb-modal-x">${icono("x", 18)}</button></div>
+    <div class="sbb-plantillas">${plantillas.map((t) => `<button class="sbb-plant" data-tpl="${t.id}"><strong>${t.nombre}</strong><small>${t.formato === "email" ? "Email 600px" : "Formato libre"}</small></button>`).join("")}</div></div>`;
+  document.body.appendChild(ov);
+  const cerrar = () => ov.remove();
+  ov.querySelector(".sbb-modal-x").addEventListener("click", cerrar);
+  ov.addEventListener("click", (e) => { if (e.target === ov) cerrar(); });
+  ov.querySelectorAll("[data-tpl]").forEach((b) =>
+    b.addEventListener("click", () => {
+      const t = plantillas.find((x) => x.id === b.dataset.tpl);
+      E.cargarPlantilla(t.build(), t.formato);
+      cerrar();
+    })
+  );
+}
 
 const btnGlobal = document.getElementById("global");
 btnGlobal.addEventListener("click", () => {

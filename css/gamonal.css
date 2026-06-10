@@ -180,3 +180,8 @@ html, body {
 .sbb-modal-x { display: grid; place-items: center; width: 32px; height: 32px; border: none; background: transparent; color: var(--g-gris-osc); border-radius: var(--g-r-sm); cursor: pointer; transition: var(--g-t); }
 .sbb-modal-x:hover { background: var(--g-gris-clr); }
 .sbb-modal-frame { flex: 1; width: 100%; border: 0; background: var(--g-gris-clr); }
+.sbb-plantillas { padding: 16px; display: grid; gap: 10px; overflow-y: auto; }
+.sbb-plant { display: flex; flex-direction: column; gap: 2px; text-align: left; padding: 14px 16px; border: 1px solid var(--g-borde); border-radius: var(--g-r-md); background: var(--g-blanco); cursor: pointer; transition: var(--g-t); }
+.sbb-plant:hover { border-color: var(--g-azul2); box-shadow: var(--g-sombra-soft); transform: translateY(-1px); }
+.sbb-plant strong { font-weight: 500; font-size: 14px; color: var(--g-azul); }
+.sbb-plant small { font-size: 12px; color: #8a8f9e; }
