@@ -5,6 +5,7 @@ import * as E from "../core/estado.js";
 import { renderLienzo } from "../core/render.js";
 import { renderPanel } from "../features/panel-props.js";
 import { activarEdicionDirecta } from "../features/edicion-directa.js";
+import { generarEmail } from "../features/export-email.js";
 import { icono } from "../core/iconos.js";
 
 const app = document.getElementById("app");
@@ -81,6 +82,27 @@ activarEdicionDirecta(lienzo);
 // ── Toolbar ──
 document.getElementById("undo").addEventListener("click", E.deshacer);
 document.getElementById("redo").addEventListener("click", E.rehacer);
+document.getElementById("preview").addEventListener("click", () => {
+  abrirPreview(generarEmail(E.getEstado()));
+});
+
+function abrirPreview(html) {
+  const ov = document.createElement("div");
+  ov.className = "sbb-modal";
+  ov.innerHTML = `
+    <div class="sbb-modal-caja">
+      <div class="sbb-modal-top">
+        <span>Vista previa · Email</span>
+        <button class="sbb-modal-x" title="Cerrar">${icono("x", 18)}</button>
+      </div>
+      <iframe class="sbb-modal-frame" title="Vista previa"></iframe>
+    </div>`;
+  document.body.appendChild(ov);
+  ov.querySelector("iframe").srcdoc = html;
+  const cerrar = () => ov.remove();
+  ov.querySelector(".sbb-modal-x").addEventListener("click", cerrar);
+  ov.addEventListener("click", (e) => { if (e.target === ov) cerrar(); });
+}
 
 // ── Render reactivo ──
 const panel = document.getElementById("panel");

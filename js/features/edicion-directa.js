@@ -3,6 +3,19 @@
 import { actualizar } from "../core/estado.js";
 
 export function activarEdicionDirecta(cont) {
+  // Clic en una imagen marcada → elegir/cambiar su fuente. (Biblioteca llegará luego.)
+  cont.addEventListener("click", (ev) => {
+    const img = ev.target.closest("[data-edit-img]");
+    if (!img) return;
+    const bloque = img.closest(".sbb-bloque");
+    if (!bloque) return;
+    ev.stopPropagation();
+    const ruta = img.getAttribute("data-edit-img");
+    const actual = img.tagName === "IMG" ? img.getAttribute("src") : "";
+    const nueva = window.prompt("URL de la imagen:", actual || "https://");
+    if (nueva != null) actualizar(bloque.dataset.id, ruta, nueva.trim());
+  });
+
   // Doble clic = editar texto. (Clic simple selecciona el bloque.)
   cont.addEventListener("dblclick", (ev) => {
     const el = ev.target.closest("[data-edit]");

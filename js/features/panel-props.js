@@ -36,6 +36,9 @@ function control(c, sel) {
     case "color":
       campo = `<input id="${id}" data-k="${c.k}" type="color" value="${v || "#000000"}">`;
       break;
+    case "imgurl":
+      campo = `<div class="sbb-imgurl"><input id="${id}" data-k="${c.k}" type="text" value="${v ?? ""}" placeholder="https://…"><button type="button" data-pick="${c.k}">Elegir</button></div>`;
+      break;
     case "check":
       campo = `<input id="${id}" data-k="${c.k}" type="checkbox"${v ? " checked" : ""}>`;
       break;
@@ -51,6 +54,14 @@ function control(c, sel) {
 }
 
 function bind(cont, idPieza) {
+  // Botón "Elegir" de los campos imgurl (placeholder hasta tener biblioteca).
+  cont.querySelectorAll("[data-pick]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const input = cont.querySelector(`[data-k="${btn.dataset.pick}"]`);
+      const nueva = window.prompt("URL de la imagen:", input.value || "https://");
+      if (nueva != null) { input.value = nueva.trim(); actualizar(idPieza, btn.dataset.pick, input.value); }
+    });
+  });
   cont.querySelectorAll("[data-k]").forEach((el) => {
     const k = el.dataset.k;
     if (el.classList.contains("sbb-seg")) {

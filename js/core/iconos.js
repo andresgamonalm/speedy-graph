@@ -11,6 +11,7 @@ const paths = {
   redo:  '<path d="M15 14l5-5-5-5M20 9H9a5 5 0 0 0 0 10h3"/>',
   eye:   '<path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7Z"/><circle cx="12" cy="12" r="3"/>',
   layers:'<path d="M12 2 2 7l10 5 10-5-10-5ZM2 17l10 5 10-5M2 12l10 5 10-5"/>',
+  x:     '<path d="M18 6 6 18M6 6l12 12"/>',
 };
 export function icono(nombre, size = 18) {
   const p = paths[nombre] || paths.layers;
