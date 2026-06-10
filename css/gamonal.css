@@ -149,6 +149,20 @@ html, body {
 .sbb-add { display: inline-flex; align-items: center; gap: 6px; width: 100%; justify-content: center; padding: 9px; font: inherit; font-size: 13px; font-weight: 500; color: var(--g-azul2); background: var(--g-blanco); border: 1px dashed var(--g-azul2); border-radius: var(--g-r-sm); cursor: pointer; transition: var(--g-t); }
 .sbb-add:hover { background: var(--g-gris-clr); }
 
+/* Canvas según formato */
+.sbb-canvas[data-formato="email"] { max-width: 600px; }
+
+/* Botón activo en barra superior */
+.sbb-top-acc button.on { background: var(--g-azul); color: var(--g-blanco); border-color: var(--g-azul); }
+
+/* Panel de diseño global */
+.sbb-kits { display: flex; flex-direction: column; gap: 8px; margin-bottom: 8px; }
+.sbb-kit { display: flex; align-items: center; gap: 8px; padding: 9px 12px; border: 1px solid var(--g-borde); border-radius: var(--g-r-md); background: var(--g-blanco); font: inherit; font-size: 13px; font-weight: 500; color: var(--g-gris-osc); cursor: pointer; transition: var(--g-t); }
+.sbb-kit:hover { border-color: var(--g-azul2); box-shadow: var(--g-sombra-soft); }
+.sbb-kit-sw { width: 14px; height: 14px; border-radius: 4px; flex: none; }
+.sbb-hex { font-size: 11px; color: #8a8f9e; font-family: ui-monospace, monospace; }
+.sbb-aviso { background: #fff7e6; border: 1px solid #f0d28a; color: #8a6d1a; font-size: 12px; padding: 8px 10px; border-radius: var(--g-r-sm); margin-bottom: 12px; }
+
 /* Hover del CTA en el editor (solo pantalla, no se exporta). */
 .sbb-cta-prev:hover { box-shadow: var(--g-sombra-med); transform: translateY(-1px); }
 

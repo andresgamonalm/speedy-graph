@@ -100,5 +100,18 @@ export function quitarItem(idPieza, k, idx) {
   notificar();
 }
 
+// ── Diseño global (grupo 12 de LINEAMIENTOS): paleta activa, formato, marca. ──
+export function setPaletaColor(rol, hex) {
+  guardarHistorial();
+  estado.paleta = { ...estado.paleta, [rol]: hex };
+  notificar();
+}
+export function setFormato(f) { guardarHistorial(); estado.formato = f; notificar(); }
+export function aplicarKit(paleta) {
+  guardarHistorial();
+  estado.paleta = { ...estado.paleta, ...paleta };
+  notificar();
+}
+
 export function deshacer() { if (!undo.length) return; redo.push(snapshot()); restaurar(undo.pop()); notificar(); }
 export function rehacer() { if (!redo.length) return; undo.push(snapshot()); restaurar(redo.pop()); notificar(); }

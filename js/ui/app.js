@@ -4,9 +4,12 @@ import { bloques, porCategoria } from "../bloques/_registro.js";
 import * as E from "../core/estado.js";
 import { renderLienzo } from "../core/render.js";
 import { renderPanel } from "../features/panel-props.js";
+import { renderGlobal } from "../features/panel-global.js";
 import { activarEdicionDirecta } from "../features/edicion-directa.js";
 import { generarEmail } from "../features/export-email.js";
 import { icono } from "../core/iconos.js";
+
+let modoGlobal = false;
 
 const app = document.getElementById("app");
 
@@ -17,6 +20,7 @@ app.innerHTML = `
       <span class="sbb-marca-txt">Simple Block Builder</span>
     </div>
     <div class="sbb-top-acc">
+      <button id="global" title="Diseño global">${icono("layers", 16)} Diseño global</button>
       <button id="undo" title="Deshacer">${icono("undo")}</button>
       <button id="redo" title="Rehacer">${icono("redo")}</button>
       <button id="preview" class="sbb-btn-primario">${icono("eye", 16)} Vista previa</button>
@@ -75,6 +79,9 @@ lienzo.addEventListener("click", (ev) => {
     else if (acc === "del") E.eliminar(id);
     return;
   }
+  // Seleccionar un bloque vuelve al panel de propiedades del bloque.
+  modoGlobal = false;
+  document.getElementById("global").classList.remove("on");
   E.seleccionar(id);
 });
 activarEdicionDirecta(lienzo);
@@ -84,6 +91,12 @@ document.getElementById("undo").addEventListener("click", E.deshacer);
 document.getElementById("redo").addEventListener("click", E.rehacer);
 document.getElementById("preview").addEventListener("click", () => {
   abrirPreview(generarEmail(E.getEstado()));
+});
+const btnGlobal = document.getElementById("global");
+btnGlobal.addEventListener("click", () => {
+  modoGlobal = !modoGlobal;
+  btnGlobal.classList.toggle("on", modoGlobal);
+  renderPanelActivo(E.getEstado());
 });
 
 function abrirPreview(html) {
@@ -106,8 +119,15 @@ function abrirPreview(html) {
 
 // ── Render reactivo ──
 const panel = document.getElementById("panel");
+function renderPanelActivo(estado) {
+  if (modoGlobal) renderGlobal(panel, estado);
+  else renderPanel(panel, estado);
+}
 E.suscribir((estado) => {
   // No re-renderizar el lienzo mientras se edita en vivo (evita perder el cursor).
-  if (!lienzo.querySelector("[contenteditable='true']")) renderLienzo(lienzo, estado);
-  renderPanel(panel, estado);
+  if (!lienzo.querySelector("[contenteditable='true']")) {
+    renderLienzo(lienzo, estado);
+    lienzo.dataset.formato = estado.formato;
+  }
+  renderPanelActivo(estado);
 });
