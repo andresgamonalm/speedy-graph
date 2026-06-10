@@ -27,6 +27,11 @@ import testimonial from "./testimonial.js";
 import diadivisor from "./diadivisor.js";
 import evento from "./evento.js";
 import fechaCard from "./fechaCard.js";
+import countdown from "./countdown.js";
+import reloj from "./reloj.js";
+import contador from "./contador.js";
+import clima from "./clima.js";
+import social from "./social.js";
 
 export const bloques = [
   // Estructura
@@ -41,6 +46,8 @@ export const bloques = [
   kpi, statGrid, comparacionNum, tabla, ring, spark,
   // Cards
   product, article, profileCard, testimonial,
+  // Widgets
+  countdown, reloj, contador, clima, social,
 ];
 
 // Mapa por id para acceso directo desde el render y el panel.

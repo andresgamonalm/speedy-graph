@@ -92,6 +92,16 @@ document.getElementById("redo").addEventListener("click", E.rehacer);
 document.getElementById("preview").addEventListener("click", () => {
   abrirPreview(generarEmail(E.getEstado()));
 });
+// Reloj en vivo (solo pantalla): actualiza los elementos [data-reloj] cada segundo.
+setInterval(() => {
+  document.querySelectorAll("[data-reloj]").forEach((el) => {
+    const [f24, seg] = el.dataset.reloj.split("");
+    const o = { hour: "2-digit", minute: "2-digit", hour12: f24 !== "1" };
+    if (seg === "1") o.second = "2-digit";
+    el.textContent = new Date().toLocaleTimeString("es", o);
+  });
+}, 1000);
+
 const btnGlobal = document.getElementById("global");
 btnGlobal.addEventListener("click", () => {
   modoGlobal = !modoGlobal;
