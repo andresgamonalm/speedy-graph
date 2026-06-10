@@ -46,10 +46,11 @@ import forma from "./forma.js";
 import fondoPatron from "./fondoPatron.js";
 import codigo from "./codigo.js";
 import embed from "./embed.js";
+import columnas from "./columnas.js";
 
 export const bloques = [
   // Estructura
-  header, hero, seccion, alert, divisor, espaciador, footer,
+  header, hero, seccion, columnas, alert, divisor, espaciador, footer,
   // Contenido
   texto, imagen, imgtext, features,
   // Acción

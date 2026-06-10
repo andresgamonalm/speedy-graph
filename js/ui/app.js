@@ -56,19 +56,23 @@ catalogo.innerHTML = Object.entries(porCategoria)
   )
   .join("");
 
+// destino: dónde se insertan los bloques nuevos. null = nivel raíz del lienzo;
+// { contenedorId, col } = dentro de la columna de un contenedor.
+let destino = null;
+
 catalogo.addEventListener("click", (ev) => {
   const btn = ev.target.closest("[data-add]");
   if (!btn) return;
   const def = bloques.find((b) => b.id === btn.dataset.add);
-  E.agregar(def.id, def.defaults);
+  E.agregar(def.id, def.defaults, destino);
 });
 
-// ── Lienzo: seleccionar + acciones por bloque ──
+// ── Lienzo: seleccionar + acciones por bloque + destino de inserción ──
 const lienzo = document.getElementById("lienzo");
 lienzo.addEventListener("click", (ev) => {
   const accBtn = ev.target.closest("[data-acc]");
   const bloque = ev.target.closest(".sbb-bloque");
-  if (!bloque) { E.seleccionar(null); return; }
+  if (!bloque) { destino = null; E.seleccionar(null); return; }
   const id = bloque.dataset.id;
   if (accBtn) {
     ev.stopPropagation();
@@ -79,7 +83,11 @@ lienzo.addEventListener("click", (ev) => {
     else if (acc === "del") E.eliminar(id);
     return;
   }
-  // Seleccionar un bloque vuelve al panel de propiedades del bloque.
+  // Si el clic cae en una columna (no en un hijo), esa columna pasa a ser el destino.
+  const col = ev.target.closest(".sbb-col");
+  destino = col && col.closest(".sbb-bloque") === bloque
+    ? { contenedorId: col.dataset.cont, col: Number(col.dataset.col) }
+    : null;
   modoGlobal = false;
   document.getElementById("global").classList.remove("on");
   E.seleccionar(id);
@@ -138,6 +146,11 @@ E.suscribir((estado) => {
   if (!lienzo.querySelector("[contenteditable='true']")) {
     renderLienzo(lienzo, estado);
     lienzo.dataset.formato = estado.formato;
+    // Resalta la columna activa como destino de inserción.
+    if (destino) {
+      const col = lienzo.querySelector(`.sbb-col[data-cont="${destino.contenedorId}"][data-col="${destino.col}"]`);
+      if (col) col.classList.add("sbb-col-activa"); else destino = null;
+    }
   }
   renderPanelActivo(estado);
 });

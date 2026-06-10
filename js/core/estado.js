@@ -28,15 +28,43 @@ function guardarHistorial() { undo.push(snapshot()); if (undo.length > 100) undo
 
 function notificar() { oyentes.forEach((fn) => fn(estado)); }
 
+// ── Árbol: los contenedores guardan hijos en datos.hijos (array de columnas). ──
+// localizar() encuentra una instancia a cualquier profundidad y devuelve su array padre.
+function colsDe(inst) { return Array.isArray(inst?.datos?.hijos) ? inst.datos.hijos : null; }
+
+function localizar(idBuscado, arr = estado.piezas) {
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i].id === idBuscado) return { inst: arr[i], arr, idx: i };
+    const cols = colsDe(arr[i]);
+    if (cols) for (const col of cols) { const r = localizar(idBuscado, col); if (r) return r; }
+  }
+  return null;
+}
+
+// Regenera ids de una instancia y de todos sus descendientes (para duplicar).
+function reIdar(inst) {
+  inst.id = nuevoId();
+  const cols = colsDe(inst);
+  if (cols) cols.forEach((col) => col.forEach(reIdar));
+  return inst;
+}
+
 // ── API pública ──
 export function suscribir(fn) { oyentes.add(fn); fn(estado); return () => oyentes.delete(fn); }
 export function getEstado() { return estado; }
-export function getSeleccionada() { return estado.piezas.find((p) => p.id === estado.seleccion) || null; }
+export function getSeleccionada() { return localizar(estado.seleccion)?.inst || null; }
 
-export function agregar(tipo, datos) {
+// Crea una instancia. target = { contenedorId, col } la inserta en esa columna.
+export function agregar(tipo, datos, target = null) {
   guardarHistorial();
   const inst = { tipo, id: nuevoId(), datos: structuredClone(datos) };
-  estado.piezas.push(inst);
+  let destino = estado.piezas;
+  if (target) {
+    const loc = localizar(target.contenedorId);
+    const cols = loc && colsDe(loc.inst);
+    if (cols && cols[target.col]) destino = cols[target.col];
+  }
+  destino.push(inst);
   estado.seleccion = inst.id;
   notificar();
   return inst.id;
@@ -44,59 +72,61 @@ export function agregar(tipo, datos) {
 
 export function seleccionar(idSel) { estado.seleccion = idSel; notificar(); }
 
-// Actualiza un campo (admite rutas anidadas "items.0.t") de la pieza indicada.
+// Actualiza un campo (admite rutas anidadas "items.0.t") a cualquier profundidad.
 export function actualizar(idPieza, ruta, valor) {
-  const p = estado.piezas.find((x) => x.id === idPieza);
-  if (!p) return;
+  const loc = localizar(idPieza);
+  if (!loc) return;
   guardarHistorial();
   const partes = ruta.split(".");
-  let obj = p.datos;
+  let obj = loc.inst.datos;
   for (let i = 0; i < partes.length - 1; i++) obj = obj[partes[i]];
   obj[partes[partes.length - 1]] = valor;
   notificar();
 }
 
 export function eliminar(idPieza) {
+  const loc = localizar(idPieza);
+  if (!loc) return;
   guardarHistorial();
-  estado.piezas = estado.piezas.filter((p) => p.id !== idPieza);
+  loc.arr.splice(loc.idx, 1);
   if (estado.seleccion === idPieza) estado.seleccion = null;
   notificar();
 }
 
 export function duplicar(idPieza) {
-  const p = estado.piezas.find((x) => x.id === idPieza);
-  if (!p) return;
+  const loc = localizar(idPieza);
+  if (!loc) return;
   guardarHistorial();
-  const i = estado.piezas.indexOf(p);
-  const copia = { tipo: p.tipo, id: nuevoId(), datos: structuredClone(p.datos) };
-  estado.piezas.splice(i + 1, 0, copia);
+  const copia = reIdar({ tipo: loc.inst.tipo, datos: structuredClone(loc.inst.datos) });
+  loc.arr.splice(loc.idx + 1, 0, copia);
   estado.seleccion = copia.id;
   notificar();
 }
 
 export function mover(idPieza, delta) {
-  const i = estado.piezas.findIndex((p) => p.id === idPieza);
-  const j = i + delta;
-  if (i < 0 || j < 0 || j >= estado.piezas.length) return;
+  const loc = localizar(idPieza);
+  if (!loc) return;
+  const j = loc.idx + delta;
+  if (j < 0 || j >= loc.arr.length) return;
   guardarHistorial();
-  const [p] = estado.piezas.splice(i, 1);
-  estado.piezas.splice(j, 0, p);
+  const [p] = loc.arr.splice(loc.idx, 1);
+  loc.arr.splice(j, 0, p);
   notificar();
 }
 
 // ── Operaciones sobre listas de ítems dentro de un bloque (features, pricing…) ──
 export function agregarItem(idPieza, k, item) {
-  const p = estado.piezas.find((x) => x.id === idPieza);
-  if (!p || !Array.isArray(p.datos[k])) return;
+  const loc = localizar(idPieza);
+  if (!loc || !Array.isArray(loc.inst.datos[k])) return;
   guardarHistorial();
-  p.datos[k].push(structuredClone(item));
+  loc.inst.datos[k].push(structuredClone(item));
   notificar();
 }
 export function quitarItem(idPieza, k, idx) {
-  const p = estado.piezas.find((x) => x.id === idPieza);
-  if (!p || !Array.isArray(p.datos[k])) return;
+  const loc = localizar(idPieza);
+  if (!loc || !Array.isArray(loc.inst.datos[k])) return;
   guardarHistorial();
-  p.datos[k].splice(idx, 1);
+  loc.inst.datos[k].splice(idx, 1);
   notificar();
 }
 

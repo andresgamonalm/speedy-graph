@@ -1,18 +1,35 @@
-// Motor de exportación a email. Junta los renderEmail de cada bloque en un documento
-// bulletproof: tablas, ancho 600px, sin CSS de pantalla. NUNCA reusa gamonal.css ni Tailwind.
+// Motor de exportación a email. Recursivo: junta los renderEmail de cada bloque (y de los
+// contenedores, como tablas con celdas) en un documento bulletproof de 600px en tablas,
+// sin CSS de pantalla. NUNCA reusa gamonal.css ni Tailwind.
 import { porId } from "../bloques/_registro.js";
+import { anchosColumna, normalizarHijos } from "../bloques/columnas.js";
 
 const ANCHO = 600;
+
+function emailItem(inst, pal, ancho) {
+  const b = porId[inst.tipo];
+  if (!b) return "";
+  if (b.esContenedor) {
+    const d = inst.datos;
+    const anchos = anchosColumna(d);
+    const hijos = normalizarHijos(d);
+    const va = d.alinV === "middle" ? "middle" : d.alinV === "bottom" ? "bottom" : "top";
+    const celdas = anchos.map((w, i) => {
+      const cw = Math.floor((ancho - d.gap * (anchos.length - 1)) * (w / 100));
+      const dentro = (hijos[i] || []).map((h) => emailItem(h, pal, cw)).join("") || "&nbsp;";
+      const pad = i < anchos.length - 1 ? `padding-right:${d.gap}px` : "";
+      return `<td valign="${va}" width="${w}%" style="${pad}">${dentro}</td>`;
+    }).join("");
+    const bg = d.bg ? ` bgcolor="${d.bg}"` : "";
+    return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"${bg}><tr><td style="padding:${d.padding}px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>${celdas}</tr></table></td></tr></table>`;
+  }
+  return b.renderEmail(inst.datos, { ancho, paleta: pal });
+}
 
 export function generarEmail(estado) {
   const pal = estado.paleta;
   const filas = estado.piezas
-    .map((p) => {
-      const b = porId[p.tipo];
-      if (!b) return "";
-      const html = b.renderEmail(p.datos, { ancho: ANCHO - 48, paleta: pal });
-      return `<tr><td style="padding:0 24px">${html}</td></tr>`;
-    })
+    .map((p) => `<tr><td style="padding:0 24px">${emailItem(p, pal, ANCHO - 48)}</td></tr>`)
     .join("\n");
 
   return `<!doctype html>
